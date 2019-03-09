@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+import argparse
+import subprocess
+import os
+import sys
+
+_CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
+
+def get_args():
+    psr = argparse.ArgumentParser()
+    psr.add_argument('-u', '--uid', help='Set uid')
+    psr.add_argument('-g', '--gid', help='Set guid')
+
+    return psr.parse_args()
+
+
+def execute_cmd(cmd):
+    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+    while True:
+        line = proc.stdout.readline()
+        if line:
+            yield line
+        if not line and proc.poll() is not None:
+            break
+
+if __name__ == '__main__':
+    args = get_args()
+
+    # TODO
+    '''
+        -e GRANT_SUDO=yes \
+        -e NB_UID={uid} \
+        -e NB_GID={gid} \
+    '''
+
+    cmd = '''
+    docker run  \
+        --rm \
+        -e TZ=Asia/Tokyo \
+        -p 8888:8888 \
+        --name jupyterlab \
+        -v {dirname}/../code:/code \
+        jupyterlab:latest \
+        start.sh jupyter lab --NotebookApp.password="{password}"
+    '''.format(dirname=_CURRENT_PATH, password=os.environ.get('JUPYTERLAB_PASSWORD'))
+
+    for line in execute_cmd(cmd):
+        sys.stdout.write(line)
