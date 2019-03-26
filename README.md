@@ -18,7 +18,7 @@ $ sudo docker build -t jupyterlab:latest ./
 Generate a password for jupyterlab.
 
 ```
-$ /bin/generate-password
+$ ./bin/generate-password
 
 Enter password:
 Verify password:
