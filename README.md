@@ -26,17 +26,12 @@ Verify password:
 sha1:xxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-Set password
-
-```
-$ export JUPYTERLAB_PASSWORD=sha1:xxxxxxxxxxxxxxxxxxxxxxxx
-```
-
 ## Run
 Run jupyterlab.
 
 ```
 $ ./bin/jupyterlab
+Hashed password: {Enter the hased password `sha1:xxxxxxxxxxxxxxxxxxxxxxxx`}
 ```
 
 - `code` directory is mounted on container.
