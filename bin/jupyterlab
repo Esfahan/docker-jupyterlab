@@ -4,6 +4,7 @@ import argparse
 import subprocess
 import os
 import sys
+import getpass
 
 _CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,6 +29,9 @@ def execute_cmd(cmd):
 if __name__ == '__main__':
     args = get_args()
 
+    print('Enter your hashed password for jupyterlab')
+    jupyterlab_password = getpass.getpass('Hashed password: ')
+
     # TODO
     '''
         -e GRANT_SUDO=yes \
@@ -44,7 +48,7 @@ if __name__ == '__main__':
         -v {dirname}/../code:/code \
         jupyterlab:latest \
         start.sh jupyter lab --NotebookApp.password="{password}"
-    '''.format(dirname=_CURRENT_PATH, password=os.environ.get('JUPYTERLAB_PASSWORD'))
+    '''.format(dirname=_CURRENT_PATH, password=jupyterlab_password)
 
     for line in execute_cmd(cmd):
         sys.stdout.write(line)
